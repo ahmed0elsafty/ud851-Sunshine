@@ -15,9 +15,12 @@
  */
 package com.example.android.sunshine.utilities;
 
+import android.net.Uri;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -26,15 +29,10 @@ import java.util.Scanner;
  */
 public final class NetworkUtils {
 
-    private static final String TAG = NetworkUtils.class.getSimpleName();
-
-    private static final String DYNAMIC_WEATHER_URL =
-            "https://andfun-weather.udacity.com/weather";
-
-    private static final String STATIC_WEATHER_URL =
-            "https://andfun-weather.udacity.com/staticweather";
-
-    private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
+    final static String QUERY_PARAM = "q";
+    final static String LAT_PARAM = "lat";
+    final static String LON_PARAM = "lon";
+    final static String FORMAT_PARAM = "mode";
 
     /*
      * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
@@ -42,20 +40,20 @@ public final class NetworkUtils {
      * a real API.If you want to connect your app to OpenWeatherMap's API, feel free to! However,
      * we are not going to show you how to do so in this course.
      */
-
+    final static String UNITS_PARAM = "units";
+    final static String DAYS_PARAM = "cnt";
+    private static final String TAG = NetworkUtils.class.getSimpleName();
+    private static final String DYNAMIC_WEATHER_URL =
+            "https://andfun-weather.udacity.com/weather";
+    private static final String STATIC_WEATHER_URL =
+            "https://andfun-weather.udacity.com/staticweather";
+    private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
     /* The format we want our API to return */
     private static final String format = "json";
     /* The units we want our API to return */
     private static final String units = "metric";
     /* The number of days we want our API to return */
     private static final int numDays = 14;
-
-    final static String QUERY_PARAM = "q";
-    final static String LAT_PARAM = "lat";
-    final static String LON_PARAM = "lon";
-    final static String FORMAT_PARAM = "mode";
-    final static String UNITS_PARAM = "units";
-    final static String DAYS_PARAM = "cnt";
 
     /**
      * Builds the URL used to talk to the weather server using a location. This location is based
@@ -65,8 +63,19 @@ public final class NetworkUtils {
      * @return The URL to use to query the weather server.
      */
     public static URL buildUrl(String locationQuery) {
-        // TODO (1) Fix this method to return the URL used to query Open Weather Map's API
-        return null;
+        Uri uriBuilder = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, locationQuery)
+                .appendQueryParameter(FORMAT_PARAM, format)
+                .appendQueryParameter(UNITS_PARAM, units)
+                .appendQueryParameter(DAYS_PARAM, String.valueOf(numDays))
+                .build();
+        URL url = null;
+        try {
+            url = new URL(uriBuilder.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 
     /**
