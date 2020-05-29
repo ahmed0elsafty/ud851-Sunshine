@@ -35,7 +35,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = new MenuInflater(this);
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detail_menu, menu);
         return true;
     }
