@@ -25,6 +25,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.TintTypedArray;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -333,24 +334,20 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
-            invalidateData();
-            getSupportLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
-            return true;
+        switch (item.getItemId()){
+            case R.id.action_refresh:
+                invalidateData();
+                getSupportLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
+                return true;
+            case R.id.action_map:
+                openLocationInMap();
+                return true;
+            case R.id.action_settings:
+                Intent intent =new Intent(this,SettingsActivity.class);
+                startActivity(intent);
+                return true;
         }
-
-        if (id == R.id.action_map) {
-            openLocationInMap();
-            return true;
-        }
-
-        // TODO (1) Add new Activity called SettingsActivity using Android Studio wizard
-        // Do step 2 in SettingsActivity
-        // TODO (2) Set setDisplayHomeAsUpEnabled to true on the support ActionBar
-
-        // TODO (6) Launch SettingsActivity when the Settings option is clicked
 
         return super.onOptionsItemSelected(item);
     }
