@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements
                 String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
                 /*
                  * A SELECTION in SQL declares which rows you'd like to return. In our case, we
-                 * want all weather data from today onwards that is stored in our weather table.
+                 * want all weather data from today onwards that is stored in our   weather table.
                  * We created a handy method to do that in our WeatherEntry class.
                  */
                 String selection = WeatherContract.WeatherEntry.getSqlSelectForTodayOnwards();
